@@ -1,0 +1,1 @@
+sed 's/lls/ls -1f/g;s/lcd/cd/g' $SUITE_DIR/$INPUT_DIR/$TEST_NUMBER.in | /bin/sh 2> $SUITE_DIR/$EXPECTED_DIR/$TEST_NUMBER.err | grep -vE '^\.' > $SUITE_DIR/$EXPECTED_DIR/$TEST_NUMBER.out 

@@ -1,0 +1,88 @@
+1. Tworzenie nowej maszyny:
+	- uruchom "Oracle VM VirtualBox" (np. wpisując w shellu "Virtual Box &")
+	- dodaj nową maszynę:
+		nazwa np.: minix 
+	 	Type: Other, Version: Other/Unknown
+	 	Rozmiar pamięci podstawowej: 256MB
+	 	Stwórz nowy wirtualny dysk twardy (typ:VDI, Fixed size, rozmiar 2GB)
+
+2. Montowanie obrazu płyty instalacyjnej:
+	- w "Setttings" utworzonej maszyny wybierz podstronę "Storage"
+	- w "Storage Tree" wybierz "Empty"
+	- zamontuj obraz płyty:
+		-- kliknij ikonę płyty na prawo od "CD/DVD Drive:", 
+		-- wybierz "Choose a virtual CD/DVD disk file...", 
+		-- ścieżka do obrazu płyty to "/afs/matinf.uj.edu.pl/common/tcs/jkozik/SO/Minix/minix_R3.2.1-972156d.iso"
+
+3. Instalacja systemu:
+	- uruchom maszynę "minix"
+	- w boot loaderze wybierz "1" - Regular MINIX 3
+	- 'Type "root" at the login prompt, and hit enter. Then type "setup" and hit enter to start the installation process.'
+	- wybierz 'automatic mode'
+	- użyj domyślnego (jedynego) dysku i regionu, domyślnego rozmiaru /home , rozmiaru bloków (4kB)
+	- poczekaj na zakończenie instalacji (kilka minut)
+	- wybierz proponowaną kartę sieciową: '8. AMD LANCE' 
+	- oraz automatyczną konfigurację sieci (DHCP)
+	- po pojawieniu się prompta "#" zamknij system i wyłącz maszynę "poweroff"
+	- po wyłączeniu maszyny odmontuj obraz płyty (analogicznie jak montaż z tym że zamiast "Choose a virtual ..." wybierz "Remove disk from virtual drive")
+
+4. Pierwsze uruchomienie systemu:
+
+Uwaga! Zawsze przed wyłączeniem maszyny należy zamknąć system ("poweroff"/"halt"/"shutdown -h" jako root).
+
+	- wystartuj maszynę (w boot loaderze wybierz opcję 1)
+	- zaloguj się jako "root"
+	- w przypadku problemów z dns może pomóc uruchomienie w  systemie host:
+		VBoxManage modifyvm "minix" --natdnshostresolver1 on
+
+5. Instalacja dodatkowych pakietów:
+	- uruchom 'pkgin update' (uaktualnia bazę dostępnych pakietów)
+	- 'pkgin avail' wypisze listę dostępnych pakietów
+ 	- 'pkgin install' instaluje pakiety, zainstaluj przynajmniej poniższe:
+			vim-7.2.446nb1       Vim editor (vi clone) without GUI
+			openssh-5.8.2nb5     Open Source Secure shell client and server (remote login program)
+			bash-4.2nb1          The GNU Bourne Again Shell
+	- inne dostępne edytory (instaluj tylko jeśli potrzebujesz)
+			nano-2.2.4nb1        Small and friendly text editor (a free replacement for Pico)
+			mg-20090107          Small, fast, public domain EMACS style editor
+			zile-2.3.17          Emacs-like text editor		
+			scmgit-1.7.7         GIT version control suite meta-package
+
+6. Dodajemy nowego użytkownika (jako root):
+	- najpierw dodajemy grupę, służy do tego narzędzie "group" - wpisz "man 8 grop" "man groupadd" oby poczytać dokumentację
+	- tworzymy grupę uruchamiając "groupadd dude"
+	- efekt możemy zobaczyć tak "more /etc/group"
+	- dodajemy użytkownika: narzędzie "user" - wpisz "man user" "man useradd" oby poczytać dokumentację
+	- "useradd -m -g dude dude"
+	- efekty: "ls -la /home", "ls -la /home/dude", "more /etc/passwd", "more /etc/master.passwd"  
+	- ustalamy hasło dla nowego użytkownika "passwd dude" (i hasło np. "Duderino")
+	- w nowej konsoli zaloguj się jako nowy użytkownik	
+	- można zmienić domyślny shell na bash, polecenie "chsh" i potem w linii "Shell" wpisz "/usr/pkg/bin/bash" zamiast "/bin/sh" (uwaga! edytor to vi)
+	- można skopiować przykładową konfigurację vim "cp /usr/pkg/share/vim/vim72/vimrc_example.vim ~/.vimrc"
+
+7. Testujemy ssh:
+	- wyłącz maszynę - "poweroff" jako root
+	- wejdź do "Preferences" aplikacji "VirtualBox"
+	- w podstronie Network wybierz zakładkę "Host-only Networks" i dodaj nową sieć (ustawienia domyślne)
+	- w ustawieniach maszyny w zakładce "Network" zmień "NAT" na "Host-only Adapter"
+	- uruchom maszynę
+	- przed loginem pojawi się IP maszyny (np. 192.168.56.101)
+	- w terminalu hosta wpisz "ssh dude@192.168.56.101"
+	- zaakceptuj klucz i zaloguj się hasłem dla użytkownika dude
+	- analogicznie powinno działać sftp
+
+8. Snapshot (jeśli wszystko działa to warto w tym momencie zrobić snapshot systemu)
+	- wyłącz maszynę - "poweroff" jako root
+	- w VirtualBox wybierz maszynę o oraz zakładkę Snapshots
+	- kliknij na ikonę "Take a snapshot ..." nadaj nazwę i zaakceptuj
+
+9. Katalog współdzielony z hostem.
+	- w "VirtualBox" wybierz maszynę i wejdź do "Settings"
+	- w podstronie "Shared Folders" dodaj nowy folder współdzielony (np. z nazwą "Shared")
+	- uruchom maszynę
+	- zamontuj współdzielony folder (jako root):
+		"mkdir /mnt/Shared"
+		"mount -t vbfs -o share=Shared none /mnt/Shared"
+
+Uwaga! Zawsze przed wyłączeniem maszyny należy zamknąć system ("poweroff"/"halt"/"shutdown -h" jako root).
+

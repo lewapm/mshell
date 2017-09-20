@@ -1,0 +1,4 @@
+
+#bin/fdcounter
+
+bin/fdcounter > fds.1 | bin/fdcounter | bin/fdcounter | bin/fdcounter > fds.2 | bin/fdcounter | bin/fdcounter | bin/fdcounter | bin/fdcounter > fds.3 | bin/fdcounter | bin/fdcounter | bin/fdcounter 

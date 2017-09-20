@@ -1,0 +1,26 @@
+Etap 2. - wejście z pliku
+
+Zmiany w stosunku do Etapu 1:
+	1. Wypisujemy prompt na STDOUT tylko jeśli STDIN odpowiada specjalnemu urządzeniu znakowemu (man fstat).
+	2. Wczytując linię z STDIN musimy się liczyć z tym że zostanie wczytanych wiele linii, oraz z tym że ostatnia z nich może nie być wczytana w całości. Należy uwzględnić przypadek że w jednym odczycie zostanie wczytana tylko część linii.
+	3. Wciąż wystarczy wykonywać tylko pierwszą z komend z każdej z wczytanych linii.
+	4. Proszę pamiętać że ostania linia wejścia może się zakończyć końcem pliku a nie końcem linii.
+
+Testy (należy uruchamiać w systemie Minix zainstalowanym zgodnie z instrukcją z ćwiczeń):
+1. Rozpakuj test1.tar.gz.
+2. Przed rozpoczęciem testów w rozpakowanym katalogu test1 uruchom 
+	./prepare.sh /tmp/Test1
+	(
+	na Linux'ie warto też przegenerować odpowiedzi
+		./gen_all.sh /bin/bash /tmp/Test1 
+	)
+3. Po zakończeniu testów test1 uruchom
+	./clean.sh /tmp/Test1
+4. Do uruchomienia wszystkich testów służy run_all.sh. Przykładowe wywołanie
+	./run_all.sh ~/shell/mshell /tmp/Test1
+5. Każdy test jest wywoływany w dwóch trybach.
+	- W trybie "raw" na wejście podawany jest po prostu plik. Przykładowe wywołanie testu 4
+		./run_one_raw.sh ~/shell/mshell /tmp/Test1 4
+	- W trybie "splitter" wejście jest podawane programowi splitter i przekazywane przez pipe do shella. Splitter przepisuje wejście na wyjście robiąc przerwy w pseudolosowych momentach. Przykładowe wywołanie testu 2
+		./run_one_splitter.sh ~/shell/mshell /tmp/Test1 2
+

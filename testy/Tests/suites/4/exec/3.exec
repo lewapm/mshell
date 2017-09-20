@@ -1,0 +1,7 @@
+
+$TESTED_SHELL < $inf 2> /dev/null >/dev/null &
+$BIN/tsleep 1.2
+ps ax | grep testerOX | grep -v grep | wc -l | sed -e s/^[[:space:]\t]*// -e s/[[:space:]\t]*$// > $outf
+sleep 1
+ps ax | grep testerOX | grep -v grep | wc -l | sed -e s/^[[:space:]\t]*// -e s/[[:space:]\t]*$// >> $outf
+

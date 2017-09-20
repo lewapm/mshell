@@ -1,0 +1,9 @@
+# many zombies
+
+bin/testerOX 0.2 | bin/testerOX 0.2 |bin/testerOX 0.2 |bin/testerOX 0.2 |bin/testerOX 0.2 & 
+bin/testerOX 0.2 | bin/testerOX 0.2 |bin/testerOX 0.2 |bin/testerOX 0.2 |bin/testerOX 0.2 & 
+bin/testerOX 0.2 | bin/testerOX 0.2 |bin/testerOX 0.2 |bin/testerOX 0.2 |bin/testerOX 0.2 & 
+
+sleep 1
+
+ps ax | grep testerOX | grep -v grep | wc -l | sed -e s/^[[:space:]\t]*// -e s/[[:space:]\t]*$// 

@@ -1,0 +1,12 @@
+# simple zombies
+
+bin/testerOX 2 &
+bin/testerOX 0.5 | bin/testerOX 0.5 | bin/testerOX  0.5 | bin/testerOX 0.5 &
+ps ax | grep testerOX | grep -v grep | wc -l | sed -e s/^[[:space:]\t]*// -e s/[[:space:]\t]*$//
+bin/tsleep 1
+ps ax | grep testerOX | grep -v grep | wc -l | sed -e s/^[[:space:]\t]*// -e s/[[:space:]\t]*$//
+bin/tsleep 1
+bin/testerOX  0.5 &
+bin/tsleep 0.1
+ps ax | grep testerOX | grep -v grep | wc -l | sed -e s/^[[:space:]\t]*// -e s/[[:space:]\t]*$//
+bin/tsleep 0.5

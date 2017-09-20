@@ -1,0 +1,5 @@
+# zombies while waiting for foreground
+
+bin/testerOX 1 | bin/testerOX 1 |bin/testerOX 1 |bin/testerOX 1 |bin/testerOX 1 & 
+
+bin/testerOX 2
